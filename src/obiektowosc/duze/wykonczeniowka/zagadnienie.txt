@@ -1,0 +1,35 @@
+w plikach fachowcy.txt, klienci.txt i wykonczenia.txt przechowywane są informacje o
+fachowcach, ich klientach i wykonanych dla nich robotach wykończeniowych.
+
+dane w plikach oddzielone są przecinkami.
+dane o fachowcach -
+id, imie, nazwisko, nr. NIP, date urodzenia.
+np:
+12, Sebastian, Nowak, 1182203292, 24-05-1985
+32, Sebastian, Kowalski, 1286243292, 02-12-1990
+
+dane o klientach -
+id, Imie, Nazwisko, data urodzenia.
+1, Jan, Śnieg, 19-01-1998
+2, Robb, Sztywny, 15-05-1996
+3, Arya, Sztywna, 01-02-2004
+
+
+dane o wykonczeniach -
+id fachowcy, id klienta, cena, czy byla wystawiona faktura, czas pracy (jako Duration https://docs.oracle.com/javase/8/docs/api/java/time/Duration.html)
+12, 2, 9000, false, P1W2D
+32, 1, 12000, false, P1W4D
+
+
+Na koniec przygotuj klase ReportService, ktora pozwoli sprawdzic nastepujace informacje:
+
+1. znajdz liste fachowcow, ktorzy wykonali roboty u przynajmniej 5 różnych klientów
+2. znajdz liste "sprawdzonych", fachowcow ktorzy wykonali roboty u wiecej niz jednego klienta o tym samym nazwisku
+3. znajdz fachowca, ktory zarobił najwięcej na realizowanych wykonczeniach
+4. znajdz najwydajniejszego fachowca - tego, ktory srednio zarabial najwiecej na dzien swojej pracy
+5. znajdz liste "frajerow", fachowcow ktorzy wystawili przynajmniej jedna fakture
+6. znajdz "cwaniaka", fachowca ktory zarobil najwiecej na nieplaceniu podatkow
+5. znajdz klienta, ktory najwiecej wydal na wykonczenia
+6. znajdz klientow, ktorzy zlecali przynajmniej 3 wykonczenia
+7. wsrod fachowcow ktorzy wykonali roboty u przynajmniej 4 roznych klientow, znajdz takich ktorzy maja srednio wyzsza stawke godzinowa dla klientow mlodszych od siebie, niz dla starszych
+8. policz ile lacznie VATu nie oplacili fachowcy
