@@ -1,6 +1,9 @@
 package Test;
 
-import java.util.List;
+import iteracja7.typy.generryczne.kosz.generyczniee.KoszOwocow;
+
+import java.io.OutputStream;
+import java.util.function.Predicate;
 
 public class Main {
 
@@ -11,22 +14,22 @@ public class Main {
 //Stworz klase MinMax<T ale nie zwykle T> ktora jako pola klasy pobiera instancje T max oraz T min
 //    Nastepnie stworz klase MinMaxService ktora bedzie miala statyczna metode MinMax<cos tutaj> getMinAndMax(List<cos tutaj> elements) zadaniem tej metody jest zwracanie mina i maxa z listy w tym jednym obiekcie wg naturalnego porządku obiektu, klasa MinMax powinna byc generyczna i metody getMin oraz getMax powinny zwraca instancje tego co bedzie na liscie elements, czyli jak przekazemy liste stringow to getMax ma zwraca String, getMin tez stringa a jak damy liste osob to ma getMax zwraca osobe, itp itd.
 
-        List<Osoba> osoby = List.of(new Osoba("Jakub", null, 21), new Osoba("Waldek", null, 30), new Osoba("Karol", null, 15));
-
-        MinMax<Osoba> wynik = MinMaxService.getMinMax(osoby);
-        System.out.println("Osoba minim: " + wynik.getMin());
-        System.out.println("osoba Maximum: " + wynik.getMax());
-
-        List<String> stringos = List.of("Co", "t", "slychac");
-
-        MinMax<String> stringiTest = MinMaxService.getMinMax(stringos);
-        System.out.println("String minim: " + stringiTest.getMin());
-        System.out.println("String Maximum: " + stringiTest.getMax());
-
-        List<Integer> integers = List.of(31, 5, 0, 15 + 15, -11, -100);
-        MinMax<Integer> integerMinMax = MinMaxService.getMinMax(integers);
-        System.out.println("Int minimum:" + integerMinMax.getMin());
-        System.out.println("Int max:" + integerMinMax.getMax());
+//        List<Osoba> osoby = List.of(new Osoba("Jakub", null, 21), new Osoba("Waldek", null, 30), new Osoba("Karol", null, 15));
+//
+//        MinMax<Osoba> wynik = MinMaxService.getMinMax(osoby);
+//        System.out.println("Osoba minim: " + wynik.getMin());
+//        System.out.println("osoba Maximum: " + wynik.getMax());
+//
+//        List<String> stringos = List.of("Co", "t", "slychac");
+//
+//        MinMax<String> stringiTest = MinMaxService.getMinMax(stringos);
+//        System.out.println("String minim: " + stringiTest.getMin());
+//        System.out.println("String Maximum: " + stringiTest.getMax());
+//
+//        List<Integer> integers = List.of(31, 5, 0, 15 + 15, -11, -100);
+//        MinMax<Integer> integerMinMax = MinMaxService.getMinMax(integers);
+//        System.out.println("Int minimum:" + integerMinMax.getMin());
+//        System.out.println("Int max:" + integerMinMax.getMax());
 
 
         //zad.2
@@ -44,22 +47,45 @@ public class Main {
 ////metoda powinna zapisac obiekty do pliku z pierwszego argumenty metody, tylko te co spelniaja drugi warunek metody, w formacie z trzeciego warunku metody.
 
 
-        ObjectContainer<Osoba> peopleFromWarsaw = new ObjectContainer<>(p -> p.getMiasto().equals("Warsaw"));
+        Condition cityCondition = object -> {
+            if (object instanceof Osoba) {
+                Osoba osoba = (Osoba) object;
+                return osoba.getMiasto().equals("Warsaw");
+            }
+            return false;
+        };
 
+        ObjectContainer peopleFromWarsaw = new ObjectContainer(cityCondition);
         peopleFromWarsaw.dodaj(new Osoba("Jan", "Warsaw", 30));
         peopleFromWarsaw.dodaj(new Osoba("Weronika", "Warsaw", 20));
         peopleFromWarsaw.dodaj(new Osoba("Waldek", "Monaco", 34));
 
-        List<Osoba> females = peopleFromWarsaw.filter(p -> p.getImie().endsWith("a"));
-        System.out.println(females);
+        Condition ageCondition = object -> {
+            if (object instanceof Osoba) {
+                Osoba osoba = (Osoba) object;
+                return osoba.getWiek() < 30;
+            }
+            return false;
+        };
 
-        peopleFromWarsaw.removeIf(p -> p.getWiek() > 50);
+        System.out.println(peopleFromWarsaw);
 
-        peopleFromWarsaw.ZapiszDoPliku("youngPeopleFromWarsaw.txt",
-                p -> p.getWiek() < 30,
-                p -> p.getImie() + ";" + p.getWiek() + ";" + p.getMiasto());
+        Formatter formatter = object -> {
+            if (object instanceof Osoba) {
+                Osoba osoba= (Osoba) object;
+                return osoba.getImie() + ";" + osoba.getWiek() + ";" + osoba.getMiasto();
+            }
+            System.out.println(object);;
+            return null;
+        };
+        System.out.println(OutputStream.nullOutputStream());
+        peopleFromWarsaw.storeToFile("youngPeopleFromWarsaw.txt", ageCondition, formatter);
     }
 }
+
+
+
+
 
 
 
